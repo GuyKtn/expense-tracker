@@ -19,6 +19,9 @@ def main():
     # "list" command
     sub.add_parser("list", help="List all expenses")
 
+    # "summary" command   
+    sub.add_parser("summary", help="Totals per category")
+
     args = parser.parse_args()
 
     db = Database("expenses.db")
@@ -38,6 +41,13 @@ def main():
             for e in expenses:
                 print(f"{e.day}  {e.category:<12} {e.amount:>8.2f}  {e.note}")
             print(f"Total: {sum(e.amount for e in expenses):>8.2f}")
+
+        elif args.command == "summary":
+            rows = db.summary_by_category()
+            if not rows:
+                print("No expenses yet.")
+            for category, total in rows:
+                print(f"{category:<12} {total:>8.2f}")
     finally:
         db.close()
 

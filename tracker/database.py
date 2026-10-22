@@ -36,6 +36,16 @@ class Database:
         return [
     Expense(amount=amount, category=category, note=note, day=date.fromisoformat(day))
     for amount, category, note, day in rows]
+
+    def summary_by_category(self) -> list[tuple[str, float]]:
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT category, SUM(amount)
+            FROM expenses
+            GROUP BY category
+            ORDER BY SUM(amount) DESC
+        """)
+        return cursor.fetchall()
         
 
     def close(self):
