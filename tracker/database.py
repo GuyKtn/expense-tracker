@@ -1,5 +1,6 @@
 import sqlite3
 from tracker.models import Expense
+from datetime import date
 
 class Database:
     def __init__(self, db_path: str):
@@ -33,7 +34,7 @@ class Database:
         cursor.execute('SELECT amount, category, note, day FROM expenses')
         rows = cursor.fetchall()
         return [
-    Expense(amount=amount, category=category, note=note, day=day.fromisoformat(day))
+    Expense(amount=amount, category=category, note=note, day=date.fromisoformat(day))
     for amount, category, note, day in rows]
         
 
