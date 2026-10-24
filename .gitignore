@@ -222,3 +222,4 @@ __marimo__/
 # Local data
 expenses.db
 *.db
+*.sqbpro
