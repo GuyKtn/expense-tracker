@@ -1,15 +1,10 @@
 from dataclasses import dataclass, field
 from datetime import date
 
-@dataclass
-class Point:
-    x: float
-    y: float = 0.0
 
-@dataclass
-class Visit:
-    place: str
-    day: date = field(default_factory=date.today)
+class ValidationError(Exception):
+    #Raise an exception when an expense has invalid data
+    pass
 
 @dataclass
 class Expense:
@@ -17,4 +12,11 @@ class Expense:
     category: str
     note: str = ""
     day: date = field(default_factory=date.today)
-    
+
+    def __post_init__(self):
+        if self.amount <= 0:
+            raise ValidationError("Amount must be positive")
+        if not self.category.strip():
+            raise ValidationError("Category cannot be empty")
+
+
