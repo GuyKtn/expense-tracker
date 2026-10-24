@@ -1,6 +1,8 @@
 import argparse
 import csv
+import sys
 
+from tracker.models import Expense, ValidationError
 from tracker.database import Database
 from tracker.models import Expense
 from datetime import date
@@ -56,12 +58,22 @@ def main():
 
         elif args.command == "export":
             expenses = db.get_expenses()
-            with open(args.output, "w", newline="", encoding="utf-8") as f:
-                writer = csv.writer(f)
-                writer.writerow(["amount", "category", "note", "day"])
-                for e in expenses:
-                    writer.writerow([e.amount, e.category, e.note, e.day.isoformat()])
+            try:
+                with open(args.output, "w", newline="", encoding="utf-8") as f:
+                    writer = csv.writer(f)
+                    writer.writerow(["amount", "category", "note", "day"])
+
+                    for e in expenses:
+                        writer.writerow([e.amount, e.category, e.note, e.day.isoformat()])
+            
+            except OSError as err:
+                print(f"Error: cannot write to {args.output} ({err.strerror})")
+                sys.exit(1)
             print(f"Exported {len(expenses)} expenses to {args.output}")
+
+    except ValidationError as err:
+        print(f"Error: {err}")
+        sys.exit(1)
     finally:
         db.close()
 
