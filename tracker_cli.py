@@ -1,4 +1,5 @@
 import argparse
+import csv
 
 from tracker.database import Database
 from tracker.models import Expense
@@ -22,6 +23,10 @@ def main():
     # "summary" command   
     sub.add_parser("summary", help="Totals per category")
 
+    # "export" command
+    export = sub.add_parser("export", help="Export expenses to CSV")
+    export.add_argument("--output", default="expenses.csv", help="CSV file name")
+    
     args = parser.parse_args()
 
     db = Database("expenses.db")
@@ -48,6 +53,15 @@ def main():
                 print("No expenses yet.")
             for category, total in rows:
                 print(f"{category:<12} {total:>8.2f}")
+
+        elif args.command == "export":
+            expenses = db.get_expenses()
+            with open(args.output, "w", newline="", encoding="utf-8") as f:
+                writer = csv.writer(f)
+                writer.writerow(["amount", "category", "note", "day"])
+                for e in expenses:
+                    writer.writerow([e.amount, e.category, e.note, e.day.isoformat()])
+            print(f"Exported {len(expenses)} expenses to {args.output}")
     finally:
         db.close()
 
