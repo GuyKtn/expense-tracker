@@ -1,5 +1,5 @@
 # Expense Tracker
-   ![Tests](https://github.com/GuyKtn/expense-tracker/actions/workflows/tests.yml/badge.svg)
+   ![Tests](https://github.com/GuyKtn/expense-tracker/actions/workflows/test.yml/badge.svg)
 
 A command-line tool to record, summarize and export personal expenses. Data is stored locally in SQLite.
 
