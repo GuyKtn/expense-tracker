@@ -4,7 +4,6 @@ import sys
 
 from tracker.models import Expense, ValidationError
 from tracker.database import Database
-from tracker.models import Expense
 from datetime import date
 
 
