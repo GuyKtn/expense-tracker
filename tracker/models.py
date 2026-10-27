@@ -3,7 +3,8 @@ from datetime import date
 
 
 class ValidationError(Exception):
-    #Raise an exception when an expense has invalid data
+    
+    """Exception raised for invalid expense data."""
     pass
 
 @dataclass
