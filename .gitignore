@@ -224,3 +224,4 @@ expenses.db
 *.db
 *.sqbpro
 *.csv
+!sample_data/*.csv
