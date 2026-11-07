@@ -79,3 +79,13 @@ expense-tracker/
 - **Databases:** SQLite with parameterized queries and `GROUP BY` aggregation.
 - **Testing:** `pytest` with fixtures and an in-memory database, so tests never touch real data.
 - **Git and GitHub:** feature branches, pull requests and a clean commit history.
+
+## Dashboard
+
+A Streamlit dashboard explores the expense data (sample dataset included).
+
+```
+streamlit run dashboard/app.py
+```
+
+Features: filters by category and date range, key metrics, spending per category and per month.
