@@ -54,24 +54,40 @@ python -m pytest
 
 ## Project structure
 
+## Project structure
+
 ```
 expense-tracker/
-├── tracker/
-│   ├── __init__.py        # marks the folder as a Python package
-│   ├── models.py          # Expense dataclass and input validation
-│   └── database.py        # SQLite storage: add, list and summarize expenses
+├── .github/
+│   └── workflows/
+│       └── test.yml           # GitHub Actions: runs the tests on every push
+├── analysis/
+│   └── explore.py             # pandas exploration of the expense data
+├── dashboard/
+│   └── app.py                 # Streamlit dashboard with filters and charts
+├── sample_data/
+│   ├── generate.py            # generates a reproducible sample dataset
+│   └── expenses_sample.csv    # sample data used by the analysis and dashboard
 ├── tests/
-│   ├── test_models.py     # tests for the validation rules
-│   └── test_database.py   # tests for the database (in-memory SQLite)
-├── tracker_cli.py         # command-line interface (argparse)
-├── requirements.txt       # project dependencies
-└── README.md
+│   ├── test_models.py         # tests for the validation rules
+│   └── test_database.py       # tests for the database (in-memory SQLite)
+├── tracker/
+│   ├── __init__.py            # marks the folder as a Python package
+│   ├── models.py              # Expense dataclass and input validation
+│   └── database.py            # SQLite storage: add, list and summarize expenses
+├── tracker_cli.py             # command-line interface (argparse)
+├── requirements.txt           # project dependencies
+├── docs/
+│   └── dashboard1.png          # dashboard screenshot used in this README
+└── README.md        
 ```
 
 - `models.py` defines the `Expense` dataclass and raises a `ValidationError` for invalid data (non-positive amount, empty category).
 - `database.py` wraps SQLite in a `Database` class that stores expenses and returns them as `Expense` objects, with a per-category summary.
 - `tracker_cli.py` is the entry point: it parses commands with `argparse` and connects user input to the database.
 - `tests/` contains the automated `pytest` tests. The database tests use in-memory SQLite, so they never touch real data.
+- `analysis/` and `dashboard/` hold the pandas exploration and the Streamlit dashboard, which read the sample CSV from `sample_data/`.
+- `.github/workflows/` runs the `pytest` tests automatically on every push and pull request.
 
 ## What I learned
 
@@ -89,3 +105,7 @@ streamlit run dashboard/app.py
 ```
 
 Features: filters by category and date range, key metrics, spending per category and per month.
+
+![Dashboard](docs/dashboard1.png)
+
+![Dashboard](docs/dashboard2.png)
